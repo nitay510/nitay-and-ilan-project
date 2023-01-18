@@ -1,6 +1,7 @@
 #include <iostream>
 #include "DistancesFunc.h"
 #include <sys/socket.h>
+#include <sstream>
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -39,11 +40,14 @@ int main(int argc,char** argv) {
       // read input from the client
         std::cout << "enter input" <<std::endl;
         std::string input1;
+        std::string word;
         std::getline(std::cin, input1);
+        std::stringstream is(input1);
+        getline(is, word, ' ');
         double val=0;
-        checkIsDouble(input1,val);
+        checkIsDouble(word,val);
         // if he want to close the program
-        if(val==-1)
+        if(val==-1 && is.rdbuf()->in_avail() == 0)
         break;
         int data_len = input1.length()+1;//because of \n
         char * buffer = new char [data_len];
