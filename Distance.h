@@ -7,6 +7,7 @@
 class Distance {
 public:
     virtual double ComputeDistance(std::vector<double> v1,std::vector<double> v2) = 0;
+    std::string description;
 };
 
 

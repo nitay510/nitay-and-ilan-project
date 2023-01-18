@@ -7,6 +7,7 @@
 class MinDistance : public Distance{
 public:
     virtual double ComputeDistance(std::vector<double> v1, std::vector<double> v2) override;
+    std::string description="MIN";
 };
 
 
