@@ -6,5 +6,6 @@
 class CanDistance : public Distance{
 public:
     virtual double ComputeDistance(std::vector<double> v1, std::vector<double> v2) override;
+    std::string description="CAN";
 };
 #endif //NITAY_AND_ILAN_SECOND_MILESTONE_CANDISTANCE_H

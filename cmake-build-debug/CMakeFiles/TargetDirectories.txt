@@ -1,0 +1,3 @@
+C:/Users/ilan talala/Documents/GitHub/nitay-and-ilan-last-mission/cmake-build-debug/CMakeFiles/nitay-and-ilan-last-mission.dir
+C:/Users/ilan talala/Documents/GitHub/nitay-and-ilan-last-mission/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/ilan talala/Documents/GitHub/nitay-and-ilan-last-mission/cmake-build-debug/CMakeFiles/rebuild_cache.dir

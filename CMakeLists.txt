@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.23)
+project(nitay-and-ilan-last-mission)
+
+set(CMAKE_CXX_STANDARD 14)
+
+add_executable(nitay-and-ilan-last-mission
+        CanDistance.cpp
+        CanDistance.h
+        CheDistance.cpp
+        CheDistance.h
+        Distance.h
+        DistancesFunc.cpp
+        Distance.h
+        EucDistance.cpp
+        EucDistance.h
+        KNN.cpp
+        KNN.h
+        ManDistance.cpp
+        ManDistance.h
+        MinDistance.cpp
+        MinDistance.h)
