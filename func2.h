@@ -9,8 +9,8 @@
 class func2: public Command{
   std::string description="algorithm settings";
 public:
-  std::string getDesctiption();
-    void execute();
+  std::string getDesctiption() override;
+    void execute() override;
 };
 
 

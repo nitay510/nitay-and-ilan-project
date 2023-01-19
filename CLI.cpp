@@ -30,12 +30,11 @@ int CLI::menu(){
   std::stringstream menu_options;
   menu_options << "Menu options:\n";
   for(auto f : functions) {
-     std::cout << f.second->description << std::endl;
-      menu_options << f.first << " . " << f.second->description << std::endl;
+      menu_options << f.first << " . " << f.second->getDesctiption() << std::endl;
   }
   std::string final_string = menu_options.str();
 
-  DIO->write(final_string);
+    DIO->write(final_string);
     string option =DIO->read(); //needs to take into account invalid input.
     auto it = functions.find(std::stoi(option));
     if(it != functions.end()){

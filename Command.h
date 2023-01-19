@@ -12,7 +12,7 @@ using namespace std;
 class Command {
 public:
     virtual void execute()=0;
-    std::string description;
+    virtual std::string getDesctiption()=0;
 protected:
     DefultIO* dio;
 };

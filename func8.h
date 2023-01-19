@@ -7,9 +7,10 @@
 
 #include "Command.h"
 class func8: public Command{
+      string description="exit";
 public:
-    string description="exit";
-    void execute();
+    std::string getDesctiption() override;
+      void execute() override;
 };
 
 
