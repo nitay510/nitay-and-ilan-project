@@ -4,11 +4,9 @@
 
 #ifndef NITAY_AND_ILAN_LAST_MISSION_CLI_H
 #define NITAY_AND_ILAN_LAST_MISSION_CLI_H
-#include "DefultIO.h"
 #include "Command.h"
 #include "KNN.h"
 class CLI {
-
 private:
     DefultIO* DIO;
     KNN* knn;

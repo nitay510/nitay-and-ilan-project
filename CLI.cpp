@@ -1,4 +1,5 @@
 #include "CLI.h"
+#include  <sstream>
 #include "func1.h"
 #include "func2.h"
 #include "func3.h"
@@ -9,7 +10,8 @@
 using namespace std;
 CLI::CLI(DefultIO* IO){
     this->DIO=IO;
-    this->metrica=new EucDistance;
+    EucDistance d;
+    this->metrica = &d;
     this->K=5;
     func1* func1_command = new func1();
     func2* func2_command = new func2();
@@ -25,11 +27,15 @@ CLI::CLI(DefultIO* IO){
     functions.insert(make_pair(8, func8_command));
 }
 int CLI::menu(){
-    DIO->write("Menu options:");
-    for(auto f : functions){
-        DIO->write(to_string(f.first) + " . " + f.second->description);
-    }
-    DIO->write("Select an option:");
+  std::stringstream menu_options;
+  menu_options << "Menu options:\n";
+  for(auto f : functions) {
+     std::cout << f.second->description << std::endl;
+      menu_options << f.first << " . " << f.second->description << std::endl;
+  }
+  std::string final_string = menu_options.str();
+
+  DIO->write(final_string);
     string option =DIO->read(); //needs to take into account invalid input.
     auto it = functions.find(std::stoi(option));
     if(it != functions.end()){
@@ -50,4 +56,6 @@ void CLI::start(){
         }
        functions.find(option)->second->execute();
     }
+};
+CLI::~CLI(){
 };

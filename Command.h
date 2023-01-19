@@ -5,8 +5,9 @@
 #ifndef NITAY_AND_ILAN_LAST_MISSION_COMMAND_H
 #define NITAY_AND_ILAN_LAST_MISSION_COMMAND_H
 #include <string>
+#include <iostream>
 #include <vector>
-#include "DefultIO.h"
+#include "SocketIO.h"
 using namespace std;
 class Command {
 public:

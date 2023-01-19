@@ -37,27 +37,6 @@ int main(int argc,char** argv) {
     bool check = true;
     // start infinite loop until client insert -1
     while(check){
-      // read input from the client
-        std::cout << "enter input" <<std::endl;
-        std::string input1;
-        std::string word;
-        std::getline(std::cin, input1);
-        std::stringstream is(input1);
-        getline(is, word, ' ');
-        double val=0;
-        checkIsDouble(word,val);
-        // if he want to close the program
-        if(val==-1 && is.rdbuf()->in_avail() == 0)
-        break;
-        int data_len = input1.length()+1;//because of \n
-        char * buffer = new char [data_len];
-        strcpy(buffer,input1.c_str());
-        int sent_bytes = send(sock,buffer, data_len, 0);
-        delete [] buffer;
-        if (sent_bytes < 0) {
-            std::cout<<"error sending message"<<std::endl;
-            continue;
-            }
         char buffer1[4096];
         int expected_data_len = sizeof(buffer1);
         int read_bytes = recv(sock, buffer1, expected_data_len, 0);

@@ -7,8 +7,9 @@
 
 #include "Command.h"
 class func2: public Command{
+  std::string description="algorithm settings";
 public:
-    string description="algorithm settings";
+  std::string getDesctiption();
     void execute();
 };
 

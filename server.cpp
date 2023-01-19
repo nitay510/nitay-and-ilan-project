@@ -1,4 +1,5 @@
 #include "KNN.h"
+#include "CLI.h"
 #include "DistancesFunc.h"
 #include <fstream>
 #include <sstream>
@@ -46,8 +47,8 @@ int main(int argc,char** argv) {
         if (client_sock < 0) {
             perror("error accepting client");
         }
-        SocketIO sio = new SocketIO(client_sock);
-        CLI cli = new CLI(sio);
+        SocketIO sio(client_sock);
+        CLI cli(&sio);
         cli.start();
 }
 }
