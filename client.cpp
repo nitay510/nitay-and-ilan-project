@@ -47,8 +47,29 @@ int main(int argc,char** argv) {
             std::cout<<"failed reading"<<std::endl;
             }
             else {
-                std::cout << buffer1 << std::endl;
+                std::cout << buffer1 ;
             }
+            // Get input from client
+            std::string input;
+            std::getline(std::cin, input);
+            // Send input to server
+            int sent_bytes = send(sock, input.c_str(),input.length(), 0);
+            //will need to check the sent_bytes
+            char buffer2[4096];
+            int expected_data_len2 = sizeof(buffer1);
+            int read_bytes2 = recv(sock, buffer2, expected_data_len2, 0);
+            if (read_bytes2 == 0) {
+            std::cout<<"no bytes to read"<<std::endl;
+                }
+                else if (read_bytes2 < 0) {
+                std::cout<<"failed reading"<<std::endl;
+                }
+                else {
+                  if(strcmp(buffer2,"close")==0)
+                  break;
+                  else
+                  std::cout << buffer2 << std::endl;
+                }
         }
         close(sock);
         return 0;

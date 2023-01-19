@@ -32,29 +32,37 @@ int CLI::menu(){
   for(auto f : functions) {
       menu_options << f.first << " . " << f.second->getDesctiption() << std::endl;
   }
-  std::string final_string = menu_options.str();
-
+    std::string final_string = menu_options.str();
     DIO->write(final_string);
     string option =DIO->read(); //needs to take into account invalid input.
-    auto it = functions.find(std::stoi(option));
-    if(it != functions.end()){
-        it->second->execute();
-    }else{
-        DIO->write("Invalid option.");
-    }
-    return std::stoi(option);
+    double d;
+    int op;
+    if(checkIsDouble(option,d))
+    op=std::stoi(option);
+    else
+    op=9;
+    return op;
 }
 void CLI::start(){
-
+int option;
     while(true)
     {
-        int option=this->menu();
+        option=this->menu();
         if(option==8)
         {
+          DIO->write("close");
             break;
         }
+        else if(option <= 5){
+        DIO->write("valid option.");
        functions.find(option)->second->execute();
+      }
+      else{
+        DIO->write("Invalid option.");
+        functions.find(8)->second->execute();
+
     }
+  }
 };
 CLI::~CLI(){
 };

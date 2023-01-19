@@ -4,15 +4,18 @@ SocketIO::SocketIO(int client_sock){
 }
 std::string SocketIO::read() {
   char bufferRecive[4096];
-  std::string sendString;
+  std::string sendString="";
   bool invalidCheck = false;
   int expected_data_len = sizeof(bufferRecive);
   int read_bytes = recv(this->client_sock, bufferRecive, expected_data_len, 0);
   if (read_bytes <= 0)
       sendString = "failed reading";
   // if it was able to read it
-  else
-    sendString = bufferRecive;
+  else{
+    for (int i = 0; i < read_bytes; i++) {
+      sendString+= bufferRecive[i];
+}
+}
     return sendString;
   }
   void SocketIO:: write(std::string s1){

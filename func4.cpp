@@ -3,5 +3,5 @@ std::string func4::getDesctiption(){
   return this->description;
 }
 void func4::execute() {
-    cout<<"func3 is working"<<endl;
+    cout<<"func4 is working"<<endl;
 }
