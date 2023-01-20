@@ -54,9 +54,14 @@ int main(int argc,char** argv) {
             std::getline(std::cin, input);
             // Send input to server
             int sent_bytes = send(sock, input.c_str(),input.length(), 0);
+            int checker = std::stoi(input);
+            if(checker==8)
+            break;
             //will need to check the sent_bytes
+            //start read and send until the end of the function
+            while (true) {
             char buffer2[4096];
-            int expected_data_len2 = sizeof(buffer1);
+            int expected_data_len2 = sizeof(buffer2);
             int read_bytes2 = recv(sock, buffer2, expected_data_len2, 0);
             if (read_bytes2 == 0) {
             std::cout<<"no bytes to read"<<std::endl;
@@ -65,12 +70,16 @@ int main(int argc,char** argv) {
                 std::cout<<"failed reading"<<std::endl;
                 }
                 else {
-                  if(strcmp(buffer2,"close")==0)
-                  break;
-                  else
-                  std::cout << buffer2 << std::endl;
+                    if(strcmp(buffer2,"close")==0) //if we want to go back to the manu.
+                    break;
+                    std::cout << buffer2 << '\n';//print what the client need to do
+                      std::string input2;
+                      std::getline(std::cin, input2);
+                      // Send input to server
+                      int sent_bytes2 = send(sock, input2.c_str(),input2.length(), 0);
+                    }
+                  }
                 }
-        }
         close(sock);
         return 0;
 }
