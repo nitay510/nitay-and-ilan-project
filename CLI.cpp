@@ -4,13 +4,13 @@
 using namespace std;
     CLI::CLI(DefultIO* IO){
     this->DIO=IO;
-    HoldInfo inf(IO);
-    this->info = &inf;
-    func1* func1_command = new func1(&inf);
-    func2* func2_command = new func2(&inf);
-    func3* func3_command = new func3(&inf);
-    func4* func4_command = new func4(&inf);
-    func5* func5_command = new func5(&inf);
+    HoldInfo* inf = new HoldInfo(IO);
+    this->info = inf;
+    func1* func1_command = new func1(this->info);
+    func2* func2_command = new func2(this->info);
+    func3* func3_command = new func3(this->info);
+    func4* func4_command = new func4(this->info);
+    func5* func5_command = new func5(this->info);
     functions.insert(make_pair(1, func1_command));
     functions.insert(make_pair(2, func2_command));
     functions.insert(make_pair(3, func3_command));
@@ -53,6 +53,7 @@ int option;
   }
 };
 CLI::~CLI(){
+  delete this->info;
   for(auto f : functions) {
     delete f.second;
   }
