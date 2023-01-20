@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "DistancesFunc.h"
 #include <sys/socket.h>
 #include <sstream>
@@ -8,6 +9,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <string>
+#include <thread>
+#include <chrono>
 // client main connect to a server than read input represen vector|distance func| k and send it to the server
 // than get from the server the name of the closest one according to the closest k neghibers.
 int main(int argc,char** argv) {
@@ -55,10 +58,12 @@ int main(int argc,char** argv) {
             // Send input to server
             int sent_bytes = send(sock, input.c_str(),input.length(), 0);
             int checker = std::stoi(input);
+
             if(checker==8)
             break;
             //will need to check the sent_bytes
             //start read and send until the end of the function
+
             while (true) {
             char buffer2[4096];
             int expected_data_len2 = sizeof(buffer2);
@@ -70,8 +75,31 @@ int main(int argc,char** argv) {
                 std::cout<<"failed reading"<<std::endl;
                 }
                 else {
+
                     if(strcmp(buffer2,"close")==0) //if we want to go back to the manu.
                     break;
+                    if(strcmp(buffer2,"invoke func1")==0)
+                    {
+                    std::string localTrain;
+                    std::getline(std::cin, localTrain);
+                    std::ifstream file(localTrain);
+                    std::string line;
+                    if (file.is_open()) {
+                       while (getline(file, line)) {
+                           std::cout<<line<<std::endl;
+                           int sent_bytes = send(sock, line.c_str(),line.length(), 0);
+                           std::this_thread::sleep_for(std::chrono::seconds(1));
+                        }
+                    //   std::string stop="stop";
+                      // int sent_bytes = send(sock, stop.c_str(),stop.length(), 0);
+                        file.close();
+                        break;
+                    }
+                    else {
+                        std::cout << "Unable to open file";
+                    }
+
+                 }
                     std::cout << buffer2 << '\n';//print what the client need to do
                       std::string input2;
                       std::getline(std::cin, input2);
