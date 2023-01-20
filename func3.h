@@ -7,8 +7,10 @@
 
 #include "Command.h"
 class func3: public Command{
+      HoldInfo* inf;
       string description="classify data";
 public:
+    func3(HoldInfo* inf);
     std::string getDesctiption() override;
       void execute() override;
 };

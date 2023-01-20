@@ -7,8 +7,10 @@
 
 #include "Command.h"
 class func2: public Command{
+  HoldInfo* inf;
   std::string description="algorithm settings";
 public:
+  func2(HoldInfo* inf);
   std::string getDesctiption() override;
     void execute() override;
 };

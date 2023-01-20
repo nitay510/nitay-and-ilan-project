@@ -7,8 +7,10 @@
 
 #include "Command.h"
 class func1: public Command{
+      HoldInfo* inf;
       string description="upload an unclassified csv data file";
 public:
+  func1(HoldInfo* inf);
   std::string getDesctiption() override;
     void execute() override;
 };

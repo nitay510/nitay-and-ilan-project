@@ -18,7 +18,7 @@ std::string SocketIO::read() {
 }
     return sendString;
   }
-  void SocketIO:: write(std::string s1){
+    void SocketIO:: write(std::string s1){
     int data_len = s1.length()+1;//because of \n
     char * buffer = new char [data_len];
     strcpy(buffer,s1.c_str());
