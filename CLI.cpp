@@ -49,7 +49,8 @@ int option;
        functions.find(option)->second->execute();
       }
       else{
-        DIO->write("Invalid input");
+        DIO->write("invalid input\n");
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
   }
 };
