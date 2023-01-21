@@ -5,7 +5,6 @@ SocketIO::SocketIO(int client_sock){
 std::string SocketIO::read() {
   char bufferRecive[4096];
   std::string sendString="";
-  bool invalidCheck = false;
   int expected_data_len = sizeof(bufferRecive);
   int read_bytes = recv(this->client_sock, bufferRecive, expected_data_len, 0);
   if (read_bytes <= 0)

@@ -50,7 +50,6 @@ int option;
       }
       else{
         DIO->write("Invalid input");
-        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
   }
 };
