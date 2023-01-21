@@ -1,4 +1,5 @@
 #include "func2.h"
+#include <thread>
 #include  <sstream>
 func2::func2(HoldInfo* inf){
   this->inf = inf;
@@ -45,11 +46,14 @@ void func2::execute() {
           this->inf->setK(newK);
         } else
           this->inf->write("invalid value for metric \n");
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     else
       this->inf->write("invalid value of k \n");
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
     else
     this->inf->write("invalid value of k \n");
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 }

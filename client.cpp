@@ -56,12 +56,15 @@ int main(int argc,char** argv) {
               std::cout << buffer1 ;
             }
             // Get input from client
+
+            if(!(buffer1[0]=='i'&&buffer1[1]=='n'&&buffer1[2]=='v'&&buffer1[3]=='a')){
             std::string input;
             std::getline(std::cin, input);
             // Send input to server
             int sent_bytes = send(sock, input.c_str(),input.length(), 0);
             //will need to check the sent_bytes
             //start read and send until the end of the function
+          }
                     if(strcmp(buffer1,"Please upload your local train CSV file.")==0)
                     {
                     std::cout << buffer1 << '\n';
