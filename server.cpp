@@ -47,8 +47,9 @@ int main(int argc,char** argv) {
         if (client_sock < 0) {
             perror("error accepting client");
         }
-        SocketIO sio(client_sock);
-        CLI cli(&sio);
+        SocketIO* sio = new SocketIO(client_sock);
+        CLI cli(sio);
         cli.start();
+        delete sio;
 }
 }

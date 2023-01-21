@@ -1,4 +1,5 @@
 #include "CLI.h"
+#include <thread>
 #include  <sstream>
 #include <vector>
 using namespace std;
@@ -48,7 +49,8 @@ int option;
        functions.find(option)->second->execute();
       }
       else{
-        DIO->write("Invalid option.");
+        DIO->write("Invalid input");
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
   }
 };
