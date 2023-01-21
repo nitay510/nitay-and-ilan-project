@@ -7,9 +7,8 @@ std::string func2::getDesctiption(){
   return this->description;
 }
 void func2::execute() {
-  std::cout << this->inf->getDName() << '\n';
   std::stringstream current_k;
-  current_k <<"The current KNN parameters are: K = "<< this->inf->getK() << ", distance metric = " << this->inf->getDName();
+  current_k <<"The current KNN parameters are: K = "<< this->inf->getK() << ", distance metric = " << this->inf->getDName()<<"\n";
   std::string toSend = current_k.str();
   this->inf->write(toSend);
   std::string toRead = this->inf->read();
@@ -18,6 +17,7 @@ void func2::execute() {
     int newK;
     std::string newMetric;
     if(is1>>newK){
+      if(newK>0){
       is1>>newMetric;
       if(newMetric.compare("AUC")==0){
         EucDistance d;
@@ -44,10 +44,12 @@ void func2::execute() {
         this->inf->setdType(&d,"MIN");
           this->inf->setK(newK);
         } else
-          this->inf->write("invalid value for metric");
+          this->inf->write("invalid value for metric \n");
     }
     else
-    this->inf->write("invalid value of k");
+      this->inf->write("invalid value of k \n");
   }
-  this->inf->write("close");
+    else
+    this->inf->write("invalid value of k \n");
+  }
 }
