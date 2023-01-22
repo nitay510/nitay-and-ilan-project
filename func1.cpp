@@ -12,7 +12,7 @@ std::string func1::getDesctiption(){
 void func1::execute() {
     int size = 0;
     std::multimap<std::vector<double>, std::string> labledPoints;
-    this->inf->write("Please upload your local train CSV file.\n");
+    this->inf->write("Please upload your local train CSV file.");
     while (this->inf->read() == "clientReady") {
         this->inf->write("Go");
         std::vector<double> v;
@@ -52,15 +52,17 @@ void func1::execute() {
     size = 0;
 
     std::list<std::vector<double>> test;
-
-   // if(this->inf->read() == "testReady")
     this->inf->write("Please upload your local test CSV file.");
-
+    std::cout<<"passed in server"<<std::endl;
     while (this->inf->read() == "testReady") {
         this->inf->write("Go");
         std::vector<double> v;
         std::string word;
         std::stringstream is(this->inf->read());
+        if(is.str()=="")
+        {
+            break;
+        }
         double val;
         bool check = true;
         //read the  numbers and the name
@@ -95,7 +97,8 @@ void func1::execute() {
             }
             std::cout << std::endl;
         }
+    }
+    std::cout<<"finish"<<std::endl;
+        this->inf->setTestFile(test);
 
     }
-    this->inf->setTestFile(test);
-}
