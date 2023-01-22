@@ -74,7 +74,6 @@ int main(int argc, char **argv) {
               || (buffer1[0] == 'c' && buffer1[1] == 'l' && buffer1[2] == 'a' && buffer1[3] == 's')
               || (buffer1[0] == 'p' && buffer1[1] == 'l' && buffer1[2] == 'e' && buffer1[3] == 'a'))) {
                 if (strcmp(buffer1, "Please upload your local train CSV file.\n") == 0) {
-                    std::cout << buffer1;
                     std::string ready = "clientReady";
                     std::string localTrain;
                     std::getline(std::cin, localTrain);
@@ -93,7 +92,7 @@ int main(int argc, char **argv) {
                                 std::cout << "failed reading" << std::endl;
                             } else if (strcmp(buffer3, "Go") == 0) {
                                 int sent_bytes = send(sock, line.c_str(), line.length(), 0);
-                                //std::this_thread::sleep_for(std::chrono::seconds(1));
+                                std::this_thread::sleep_for(std::chrono::milliseconds(100));
                             }
                         }
                         //   std::string stop="stop";
@@ -122,7 +121,7 @@ int main(int argc, char **argv) {
                                   std::cout << "failed reading" << std::endl;
                               } else if (strcmp(buffer3, "Go") == 0) {
                                   int sent_bytes = send(sock, line.c_str(), line.length(), 0);
-                                  //std::this_thread::sleep_for(std::chrono::seconds(1));
+                                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
                               }
                           }
                           //   std::string stop="stop";
