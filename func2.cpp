@@ -1,5 +1,4 @@
 #include "func2.h"
-#include <thread>
 #include  <sstream>
 func2::func2(HoldInfo* inf){
   this->inf = inf;

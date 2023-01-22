@@ -7,5 +7,17 @@ std::string func3::getDesctiption(){
   return this->description;
 }
 void func3::execute() {
-    cout<<"func3 is working"<<endl;
+if(inf->haveFiles()){
+  int i = 1;
+  std::map<int,std::string> predictList;
+  for (auto & currentVector : this->inf->getTestFile()) {
+  predictList.insert(std::pair<int,std::string>(i,this->inf->predictWithK(currentVector)));
+  i++;
+}
+this->inf->setPredict(predictList);
+this->inf->write("classifying data complete\n");
+std::this_thread::sleep_for(std::chrono::milliseconds(100));
+} else
+  this->inf->write("upload data please\n");
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
