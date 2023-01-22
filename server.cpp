@@ -1,29 +1,57 @@
 #include "KNN.h"
 #include "CLI.h"
-#include "DistancesFunc.h"
-#include <fstream>
-#include <sstream>
+#include <thread>
+#include <vector>
 #include <cstring>
 #include <sys/socket.h>
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-//the server main get file place and read vectors from this file, than bind and accept clients,
-//every client send string and the server make a vector,distance function, and k closest neghibers to read from
-// than it send to the client which one is the closest acording to the k closest neghibers.
-int main(int argc,char** argv) {
-  //check if the number of arguments is enough.
-    if(argc <= 1){
-  std::cout << "you didn't put enough arguments!!:" << '\n';
-  exit(1);
+#include <queue>
+#include <mutex>
+#include <condition_variable>
+const int NUM_THREADS = 1000;
+std::queue<int> client_socks;
+std::mutex mtx;
+std::condition_variable cv;
+std::vector<std::thread> threads;
+bool stop = false;
+
+void worker() {
+    while (true) {
+        std::unique_lock<std::mutex> lock(mtx);
+        cv.wait(lock, [] { return !client_socks.empty() || stop; });
+
+        if (stop && client_socks.empty()) {
+            break;
+        }
+
+        int client_sock = client_socks.front();
+        client_socks.pop();
+        lock.unlock();
+
+        SocketIO* sio = new SocketIO(client_sock);
+        CLI cli(sio);
+        cli.start();
+        delete sio;
+    }
 }
+
+int main(int argc, char** argv) {
+    //check if the number of arguments is enough.
+    if (argc <= 1) {
+        std::cout << "you didn't put enough arguments!!" << '\n';
+        exit(1);
+    }
+
     const int server_port = std::stoi(argv[1]);
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0) {
         perror("error creating socket");
         exit(1);
     }
+
     struct sockaddr_in sin;
     memset(&sin, 0, sizeof(sin));
     sin.sin_family = AF_INET;
@@ -36,20 +64,36 @@ int main(int argc,char** argv) {
     }
     if (listen(sock, 5) < 0) {
         perror("error listening to a socket");
-          exit(1);
+        exit(1);
     }
+
     struct sockaddr_in client_sin;
     unsigned int addr_len = sizeof(client_sin);
-    //start infinite loop of accepting clients
-    while(true){
-      //accept client
+
+    for (int i = 0; i < NUM_THREADS; ++i) {
+        threads.push_back(std::thread(worker));
+    }
+
+    while (true) {
         int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);
         if (client_sock < 0) {
             perror("error accepting client");
+        } else {
+            std::unique_lock<std::mutex> lock(mtx);
+            client_socks.push(client_sock);
+            cv.notify_one();
         }
-        SocketIO* sio = new SocketIO(client_sock);
-        CLI cli(sio);
-        cli.start();
-        delete sio;
-}
+    }
+
+    {
+        std::unique_lock<std::mutex> lock(mtx);
+        stop = true;
+        cv.notify_all();
+    }
+
+    for (auto& thread : threads) {
+        thread.join();
+    }
+
+    return 0;
 }
