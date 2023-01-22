@@ -49,7 +49,7 @@ void CLI::start(){
             functions.find(option)->second->execute();
         }
         else{
-            DIO->write("Invalid input");
+            DIO->write("invalid input\n");
         }
     }
 };
