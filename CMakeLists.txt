@@ -18,4 +18,23 @@ add_executable(nitay-and-ilan-last-mission
         ManDistance.cpp
         ManDistance.h
         MinDistance.cpp
-        MinDistance.h)
+        MinDistance.h
+        client.cpp
+        func1.cpp
+        func1.h
+        func2.cpp
+        func2.h
+        func3.cpp
+        func3.h
+        func4.cpp
+        func4.h
+        func5.cpp
+        func5.h
+        CLI.cpp
+        CLI.h
+        SocketIO.cpp
+        DefultIO.h
+        HoldInfo.cpp
+        HoldInfo.h
+        server.cpp
+        Command.h)

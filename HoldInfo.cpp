@@ -2,7 +2,7 @@
 
 HoldInfo::HoldInfo(DefultIO* dio){
   this->k = 5;
-  HaveFile = false;
+  std::list <std::vector<double>> testFile;
   this->dio = dio;
   this->dTypeName = "AUC";
   EucDistance d;
@@ -15,6 +15,10 @@ void HoldInfo::setKnn(std::multimap<std::vector<double>,std::string> LabledPoint
 void HoldInfo:: setDio(DefultIO* dio){
   this->dio = dio;
 }
+void HoldInfo:: setTestFile(std::list <std::vector<double>> testFile){
+    this->testFile = testFile;
+}
+
 void HoldInfo:: setK(int k){
   this->k = k;
 }

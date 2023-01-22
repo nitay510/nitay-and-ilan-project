@@ -3,7 +3,7 @@
 #include  <sstream>
 #include <vector>
 using namespace std;
-    CLI::CLI(DefultIO* IO){
+CLI::CLI(DefultIO* IO){
     this->DIO=IO;
     HoldInfo* inf = new HoldInfo(IO);
     this->info = inf;
@@ -19,43 +19,43 @@ using namespace std;
     functions.insert(make_pair(5, func5_command));
 }
 int CLI::menu(){
-  std::stringstream menu_options;
-  menu_options << "Menu options:\n";
-  for(auto f : functions) {
-      menu_options << f.first << " . " << f.second->getDesctiption() << std::endl;
-  }
+    std::stringstream menu_options;
+    menu_options << "Menu options:\n";
+    for(auto f : functions) {
+        menu_options << f.first << " . " << f.second->getDesctiption() << std::endl;
+    }
     std::string final_string = menu_options.str();
     DIO->write(final_string);
     string option =DIO->read(); //needs to take into account invalid input.
     double d;
     int op;
     if(checkIsDouble(option,d))
-    op=std::stoi(option);
+        op=std::stoi(option);
     else
-    op=9;
+        op=9;
     return op;
 }
 void CLI::start(){
-int option;
+    int option;
     while(true)
     {
         option=this->menu();
         if(option==8)
         {
-          DIO->write("close");
+            DIO->write("close");
             break;
         }
         else if(option <= 5){
-       functions.find(option)->second->execute();
-      }
-      else{
-        DIO->write("Invalid input");
+            functions.find(option)->second->execute();
+        }
+        else{
+            DIO->write("Invalid input");
+        }
     }
-  }
 };
 CLI::~CLI(){
-  delete this->info;
-  for(auto f : functions) {
-    delete f.second;
-  }
+    delete this->info;
+    for(auto f : functions) {
+        delete f.second;
+    }
 };

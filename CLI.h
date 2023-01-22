@@ -14,9 +14,9 @@ private:
     DefultIO* DIO;
     HoldInfo* info;
     map<int,Command*> functions;
-    int menu();
 public:
     void start();
+    int menu();
     CLI(DefultIO* IO);
     ~CLI();
 };
