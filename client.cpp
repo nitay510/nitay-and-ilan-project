@@ -15,6 +15,9 @@
 // client main connect to a server than read input represen vector|distance func| k and send it to the server
 // than get from the server the name of the closest one according to the closest k neghibers.
 int main(int argc, char **argv) {
+  std::string testReady = "testReady";
+  std::string finish = "finish";
+
     //check if the number of arguments is enough.
     if (argc <= 2) {
         std::cout << "you didn't put enough arguments!!:" << '\n';
@@ -64,87 +67,82 @@ int main(int argc, char **argv) {
                         std::cout << buffer2;
                     }
                 }
-                std::cout << buffer2;
             } else
                 std::cout << buffer1;
         }
         if (!((buffer1[0] == 'i' && buffer1[1] == 'n' && buffer1[2] == 'v' && buffer1[3] == 'a')
               || (buffer1[0] == 'c' && buffer1[1] == 'l' && buffer1[2] == 'a' && buffer1[3] == 's')
               || (buffer1[0] == 'p' && buffer1[1] == 'l' && buffer1[2] == 'e' && buffer1[3] == 'a'))) {
+                if (strcmp(buffer1, "Please upload your local train CSV file.\n") == 0) {
+                    std::cout << buffer1;
+                    std::string ready = "clientReady";
+                    std::string localTrain;
+                    std::getline(std::cin, localTrain);
+                    std::ifstream file(localTrain);
+                    std::string line;
+                    if (file.is_open()) {
+                        while (getline(file, line)) {
+                            int sent_bytes = send(sock, ready.c_str(), ready.length(), 0);
+                            std::cout << line << std::endl;
+                            char buffer3[4096];
+                            int expected_data_len = sizeof(buffer3);
+                            int read_bytes = recv(sock, buffer3, expected_data_len, 0);
+                            if (read_bytes == 0) {
+                                std::cout << "no bytes to read" << std::endl;
+                            } else if (read_bytes < 0) {
+                                std::cout << "failed reading" << std::endl;
+                            } else if (strcmp(buffer3, "Go") == 0) {
+                                int sent_bytes = send(sock, line.c_str(), line.length(), 0);
+                                //std::this_thread::sleep_for(std::chrono::seconds(1));
+                            }
+                        }
+                        //   std::string stop="stop";
+                        // int sent_bytes = send(sock, stop.c_str(),stop.length(), 0);
+                        file.close();
+                        int sent_bytes = send(sock, testReady.c_str(), testReady.length(), 0);
+                    } else {
+                        std::cout << "Unable to open file\n";
+                    }
+                }
+                else if(strcmp(buffer1, "Please upload your local test CSV file.\n") == 0) {
+                      std::string localTest;
+                      std::getline(std::cin,localTest);
+                      std::ifstream file(localTest);
+                      std::string line;
+                      if (file.is_open()) {
+                          while (getline(file, line)) {
+                              int sent_bytes = send(sock, testReady.c_str(), testReady.length(), 0);
+                              std::cout << line << std::endl;
+                              char buffer3[4096];
+                              int expected_data_len = sizeof(buffer3);
+                              int read_bytes = recv(sock, buffer3, expected_data_len, 0);
+                              if (read_bytes == 0) {
+                                  std::cout << "no bytes to read" << std::endl;
+                              } else if (read_bytes < 0) {
+                                  std::cout << "failed reading" << std::endl;
+                              } else if (strcmp(buffer3, "Go") == 0) {
+                                  int sent_bytes = send(sock, line.c_str(), line.length(), 0);
+                                  //std::this_thread::sleep_for(std::chrono::seconds(1));
+                              }
+                          }
+                          //   std::string stop="stop";
+
+                          int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
+                          std::cout<<"send finish"<<std::endl;
+                          file.close();
+
+                      } else {
+                          std::cout << "Unable to open file\n";
+                      }
+
+                  }
+            else {
             std::string input;
             std::getline(std::cin, input);
             // Send input to server
             int sent_bytes = send(sock, input.c_str(), input.length(), 0);
             //will need to check the sent_bytes
-            //start read and send until the end of the function
-        }
-        std::string testReady = "testReady";
-        std::string finish = "finish";
-        if (strcmp(buffer1, "Please upload your local train CSV file.") == 0) {
-            std::cout << buffer1;
-            std::string ready = "clientReady";
-            std::string localTrain;
-            std::getline(std::cin, localTrain);
-            std::ifstream file(localTrain);
-            std::string line;
-            if (file.is_open()) {
-                while (getline(file, line)) {
-                    int sent_bytes = send(sock, ready.c_str(), ready.length(), 0);
-                    std::cout << line << std::endl;
-                    char buffer3[4096];
-                    int expected_data_len = sizeof(buffer3);
-                    int read_bytes = recv(sock, buffer3, expected_data_len, 0);
-                    if (read_bytes == 0) {
-                        std::cout << "no bytes to read" << std::endl;
-                    } else if (read_bytes < 0) {
-                        std::cout << "failed reading" << std::endl;
-                    } else if (strcmp(buffer3, "Go") == 0) {
-                        int sent_bytes = send(sock, line.c_str(), line.length(), 0);
-                        //std::this_thread::sleep_for(std::chrono::seconds(1));
-                    }
-                }
-                //   std::string stop="stop";
-                // int sent_bytes = send(sock, stop.c_str(),stop.length(), 0);
-                file.close();
-                int sent_bytes = send(sock, testReady.c_str(), testReady.length(), 0);
-            } else {
-                std::cout << "Unable to open file\n";
-            }
-        }
-
-
-        if (strcmp(buffer1, "Please upload your local test CSV file.") == 0) {
-            std::cout << buffer1;
-            std::string localTest;
-            std::getline(std::cin,localTest);
-            std::ifstream file(localTest);
-            std::string line;
-            if (file.is_open()) {
-                while (getline(file, line)) {
-                    int sent_bytes = send(sock, testReady.c_str(), testReady.length(), 0);
-                    std::cout << line << std::endl;
-                    char buffer3[4096];
-                    int expected_data_len = sizeof(buffer3);
-                    int read_bytes = recv(sock, buffer3, expected_data_len, 0);
-                    if (read_bytes == 0) {
-                        std::cout << "no bytes to read" << std::endl;
-                    } else if (read_bytes < 0) {
-                        std::cout << "failed reading" << std::endl;
-                    } else if (strcmp(buffer3, "Go") == 0) {
-                        int sent_bytes = send(sock, line.c_str(), line.length(), 0);
-                        //std::this_thread::sleep_for(std::chrono::seconds(1));
-                    }
-                }
-                //   std::string stop="stop";
-
-                int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
-                std::cout<<"send finish"<<std::endl;
-                file.close();
-
-            } else {
-                std::cout << "Unable to open file\n";
-            }
-
+          }
         }
 
     }
