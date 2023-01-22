@@ -13,6 +13,7 @@ private:
     std::string dTypeName;
     bool haveTestFile;
     bool haveFile;
+    bool dataClassified;
 public:
     HoldInfo(DefultIO* dio);
     void setPredict(std::map<int,std::string> filesAfterPredict);
@@ -24,6 +25,7 @@ public:
     std::string predictWithK(std::vector<double> Point);
     int getK();
     bool haveFiles();
+    bool classifyFiles();
     std::string getDName();
     std::list <std::vector<double>>getTestFile();
     std::map<int,std::string> getPredictList();

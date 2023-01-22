@@ -9,9 +9,11 @@ HoldInfo::HoldInfo(DefultIO* dio){
   this->dType = &d;
   this->haveTestFile = false;
   this->haveFile = false;
+  this->dataClassified = false;
 }
 void HoldInfo::setPredict(std::map<int,std::string> filesAfterPredict){
   this->filesAfterPredict = filesAfterPredict;
+  this->dataClassified = true;
 }
 void HoldInfo::setKnn(std::multimap<std::vector<double>,std::string> LabledPoints){
   KNN knn1(LabledPoints);
@@ -56,4 +58,7 @@ std::string HoldInfo::read() {
 }
 bool HoldInfo::haveFiles(){
   return(this->haveFile&&this->haveTestFile);
+}
+bool HoldInfo::classifyFiles(){
+  return this->dataClassified;
 }

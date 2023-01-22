@@ -41,6 +41,7 @@ int main(int argc,char** argv) {
     // start infinite loop until client insert -1
     while(check){
         char buffer1[4096];
+        char buffer2[4096];
         int expected_data_len = sizeof(buffer1);
         int read_bytes = recv(sock, buffer1, expected_data_len, 0);
         if (read_bytes == 0) {
@@ -52,12 +53,28 @@ int main(int argc,char** argv) {
             else {
               if(strcmp(buffer1,"close")==0) //if we want to end the program.
               break;
+              else if(strcmp(buffer1,"start func 4")==0){
+                  while (strcmp(buffer2,"Done")!=0){
+                    int expected_data_len = sizeof(buffer2);
+                    int read_bytes = recv(sock, buffer2, expected_data_len, 0);
+                    if (read_bytes == 0) {
+                    std::cout<<"no bytes to read"<<std::endl;
+                        }
+                        else if (read_bytes < 0) {
+                        std::cout<<"failed reading"<<std::endl;
+                        }
+                        else {
+                          std::cout << buffer2 ;
+                        }
+                  }
+                  std::cout << buffer2;
+                }
               else
               std::cout << buffer1 ;
             }
             if (!((buffer1[0] == 'i' && buffer1[1] == 'n' && buffer1[2] == 'v' && buffer1[3] == 'a')
             || (buffer1[0] == 'c' && buffer1[1] == 'l' && buffer1[2] == 'a' && buffer1[3] == 's')
-            || (buffer1[0] == 'u' && buffer1[1] == 'p' && buffer1[2] == 'l' && buffer1[3] == 'o')))
+            || (buffer1[0] == 'p' && buffer1[1] == 'l' && buffer1[2] == 'e' && buffer1[3] == 'a')))
         {
                         std::string input;
                         std::getline(std::cin, input);
