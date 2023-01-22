@@ -50,6 +50,7 @@ void CLI::start(){
         }
         else{
             DIO->write("invalid input\n");
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
 };
