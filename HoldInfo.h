@@ -5,7 +5,7 @@
 class HoldInfo {
 private:
     DefultIO* dio;
-    std::map<int,std::string> filesAfterPredict;
+    std::list<std::string> filesAfterPredict;
     std::list <std::vector<double>> testFile;
     KNN* knn;
     int k;
@@ -16,7 +16,7 @@ private:
     bool dataClassified;
 public:
     HoldInfo(DefultIO* dio);
-    void setPredict(std::map<int,std::string> filesAfterPredict);
+    void setPredict(std::list<std::string> filesAfterPredict);
     void setKnn(std::multimap<std::vector<double>,std::string> LabledPoints);
     void setDio(DefultIO* dio);
     void setTestFile(std::list <std::vector<double>> testFile);
@@ -29,7 +29,7 @@ public:
     bool classifyFiles();
     std::string getDName();
     std::list <std::vector<double>>getTestFile();
-    std::map<int,std::string> getPredictList();
+    std::list<std::string> getPredictList();
     void write(std::string str);
     std::string read();
   };

@@ -5,13 +5,13 @@ HoldInfo::HoldInfo(DefultIO* dio){
   std::list <std::vector<double>> testFile;
   this->dio = dio;
   this->dTypeName = "AUC";
-  EucDistance d;
-  this->dType = &d;
+  EucDistance* d= new EucDistance();
+  this->dType = d;
   this->haveTestFile = false;
   this->haveFile = false;
   this->dataClassified = false;
 }
-void HoldInfo::setPredict(std::map<int,std::string> filesAfterPredict){
+void HoldInfo::setPredict(std::list<std::string> filesAfterPredict){
   this->filesAfterPredict = filesAfterPredict;
   this->dataClassified = true;
 }
@@ -32,13 +32,14 @@ void HoldInfo:: setK(int k){
   this->k = k;
 }
 void HoldInfo::setdType(Distance* dType,std::string dTypeName){
+  delete(this->dType);
   this->dTypeName = dTypeName;
   this->dType = dType;
 }
 std::string HoldInfo::predictWithK(std::vector<double> Point){
   return this->knn->predict(Point,this->dType,this->k);
 }
-std::map<int,std::string> HoldInfo::getPredictList(){
+std::list<std::string> HoldInfo::getPredictList(){
   return this->filesAfterPredict;
 }
 std::list <std::vector<double>> HoldInfo::getTestFile(){

@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
             if (strcmp(buffer1, "close") == 0) //if we want to end the program.
                 break;
             else if (strcmp(buffer1, "start func 4") == 0) {
-                while (strcmp(buffer2, "Done") != 0) {
+                while (strcmp(buffer2, "Done\n") != 0) {
                     int expected_data_len = sizeof(buffer2);
                     int read_bytes = recv(sock, buffer2, expected_data_len, 0);
                     if (read_bytes == 0) {
@@ -67,9 +67,8 @@ int main(int argc, char **argv) {
                         std::cout << buffer2;
                     }
                 }
-            } else
+            } else {
                 std::cout << buffer1;
-        }
         if (!((buffer1[0] == 'i' && buffer1[1] == 'n' && buffer1[2] == 'v' && buffer1[3] == 'a')
               || (buffer1[0] == 'c' && buffer1[1] == 'l' && buffer1[2] == 'a' && buffer1[3] == 's')
               || (buffer1[0] == 'p' && buffer1[1] == 'l' && buffer1[2] == 'e' && buffer1[3] == 'a'))) {
@@ -143,8 +142,9 @@ int main(int argc, char **argv) {
             //will need to check the sent_bytes
           }
         }
-
+}
     }
+  }
     close(sock);
     return 0;
 }

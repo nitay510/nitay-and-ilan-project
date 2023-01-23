@@ -18,12 +18,15 @@ void func4::execute() {
     return;
   }
     this->inf->write("start func 4");
-    for(auto it=this->inf->getPredictList().begin(); it != this->inf->getPredictList().end(); it++){
-      std::stringstream mapS;
-      mapS << it->first << "  " << it->second << std::endl;
-      this->inf->write(mapS.str());
-      std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
+    int i = 1;
+    for (auto str :this->inf->getPredictList()) {
+    std::stringstream mapS;
+    mapS << i << "." << str<< std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    this->inf->write(mapS.str());
+    i++;
+}
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     this->inf->write("Done\n");
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }

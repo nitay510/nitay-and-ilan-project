@@ -73,7 +73,7 @@ void func1::execute() {
             for (auto x : v) {
     std::cout << x << " ";
 }
-std::cout << std::endl;
+      std::cout << std::endl;
         test.push_back(v);
         isReady = this->inf->read();
       }
