@@ -125,7 +125,7 @@ int main(int argc, char **argv) {
                               }
                           }
                           //   std::string stop="stop";
-
+                          std::this_thread::sleep_for(std::chrono::milliseconds(100));
                           int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
                           std::cout<<"send finish"<<std::endl;
                           file.close();

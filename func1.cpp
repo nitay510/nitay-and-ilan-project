@@ -54,51 +54,24 @@ void func1::execute() {
     std::list<std::vector<double>> test;
     this->inf->write("Please upload your local test CSV file.\n");
     std::cout<<"passed in server"<<std::endl;
-    while (this->inf->read() == "testReady") {
+    std::string isReady = this->inf->read();
+    while (strcmp(isReady.c_str(),"testReady")==0) {
+      std::cout << isReady << '\n';
         this->inf->write("Go");
         std::vector<double> v;
         std::string word;
-        std::stringstream is(this->inf->read());
-        if(is.str()=="")
-        {
-            break;
-        }
+        std::istringstream is(this->inf->read());
+        std::cout<<is.str()<<std::endl;
         double val;
         bool check = true;
         //read the  numbers and the name
-        while (check) {
-            getline(is, word, ',');
-            check = checkIsDouble(word, val);
-            v.push_back(val);
-            if(!check)
-            {
-                std::string s = is.str();
-                check = checkIsDouble(s, val);
-                if (check) {
-                    v.push_back(val);
-                }
+        while (is>>val) {
+          v.push_back(val);
             }
-        }
-
-        //to get the size of first vector
-        if (size == 0) {
-            size = v.size();
-        }
-        //check if it was a valid vector if it does put it in the map
-        if (is.rdbuf()->in_avail() != 0 || v.size() != size) {
-            std::cout << "the vector in the file wasnt good" << '\n';
-            exit(1);
-        }
-
         test.push_back(v);
-       for (auto vec: test) {
-            for (auto element: vec) {
-                std::cout << element << " ";
-            }
-            std::cout << std::endl;
-        }
-    }
+        isReady = this->inf->read();
+      }
     std::cout<<"finish"<<std::endl;
-        this->inf->setTestFile(test);
+    this->inf->setTestFile(test);
 
     }
