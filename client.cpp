@@ -45,8 +45,9 @@ int main(int argc, char **argv) {
     // start infinite loop until client insert -1
     while (check) {
         char buffer1[4096];
-        char buffer2[4096];
+        char buffer2[4096]="nitay";
         int expected_data_len = sizeof(buffer1);
+          std::this_thread::sleep_for(std::chrono::milliseconds(100));
         int read_bytes = recv(sock, buffer1, expected_data_len, 0);
         if (read_bytes == 0) {
             std::cout << "no bytes to read" << std::endl;
@@ -56,7 +57,7 @@ int main(int argc, char **argv) {
             if (strcmp(buffer1, "close") == 0) //if we want to end the program.
                 break;
             else if (strcmp(buffer1, "start func 4") == 0) {
-                while (strcmp(buffer2, "Done\n") != 0) {
+                while (strcmp(buffer2, "Done\n") != 0) {      
                     int expected_data_len = sizeof(buffer2);
                     int read_bytes = recv(sock, buffer2, expected_data_len, 0);
                     if (read_bytes == 0) {

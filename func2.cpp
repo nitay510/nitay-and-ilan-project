@@ -20,28 +20,28 @@ void func2::execute() {
       if(newK>0){
       is1>>newMetric;
       if(newMetric.compare("AUC")==0){
-        EucDistance d;
-        this->inf->setdType(&d,"AUC");
+        EucDistance* d = new EucDistance();
+        this->inf->setdType(d,"AUC");
         this->inf->setK(newK);
       }
         else if(newMetric.compare("MAN")==0){
-        ManDistance d;
-        this->inf->setdType(&d,"MAN");
+        ManDistance* d = new ManDistance();
+        this->inf->setdType(d,"MAN");
         this->inf->setK(newK);
       }
         else if(newMetric.compare("CHB")==0){
-        CheDistance d;
-        this->inf->setdType(&d,"CHB");
+        CheDistance* d = new CheDistance();
+        this->inf->setdType(d,"CHB");
           this->inf->setK(newK);
       }
         else if(newMetric.compare("CAN")==0){
-        CanDistance d;
-        this->inf->setdType(&d,"CAN");
+        CanDistance* d = new CanDistance();
+        this->inf->setdType(d,"CAN");
           this->inf->setK(newK);
       }
         else if(newMetric.compare("MIN")==0){
-        MinDistance d;
-        this->inf->setdType(&d,"MIN");
+        MinDistance* d = new MinDistance();
+        this->inf->setdType(d,"MIN");
           this->inf->setK(newK);
         } else
           this->inf->write("invalid value for metric \n");

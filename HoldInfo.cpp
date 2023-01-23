@@ -32,7 +32,7 @@ void HoldInfo:: setK(int k){
   this->k = k;
 }
 void HoldInfo::setdType(Distance* dType,std::string dTypeName){
-  delete(this->dType);
+  delete this->dType;
   this->dTypeName = dTypeName;
   this->dType = dType;
 }
@@ -50,6 +50,9 @@ int HoldInfo:: getK(){
 }
 KNN* HoldInfo:: getKNN(){
   return this->knn;
+}
+Distance* HoldInfo:: getDistanceMetrix() {
+  return this->dType;
 }
 std::string HoldInfo:: getDName(){
   return this->dTypeName;

@@ -28,6 +28,7 @@ public:
     bool haveFiles();
     bool classifyFiles();
     std::string getDName();
+    Distance* getDistanceMetrix();
     std::list <std::vector<double>>getTestFile();
     std::list<std::string> getPredictList();
     void write(std::string str);

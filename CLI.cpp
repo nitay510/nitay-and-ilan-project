@@ -55,6 +55,8 @@ void CLI::start(){
     }
 };
 CLI::~CLI(){
+    delete this->info->getKNN();
+    delete this->info->getDistanceMetrix();
     delete this->info;
     for(auto f : functions) {
         delete f.second;
