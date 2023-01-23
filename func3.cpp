@@ -17,8 +17,8 @@ if(inf->haveFiles()){
 }
 this->inf->setPredict(predictList);
 this->inf->write("classifying data complete\n");
-std::this_thread::sleep_for(std::chrono::milliseconds(100));
+std::this_thread::sleep_for(std::chrono::milliseconds(10));
 } else
   this->inf->write("please upload data\n");
-  std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  std::this_thread::sleep_for(std::chrono::milliseconds(10));
 }

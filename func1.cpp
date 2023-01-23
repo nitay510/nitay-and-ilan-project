@@ -13,7 +13,9 @@ void func1::execute() {
     int size = 0;
     std::multimap<std::vector<double>, std::string> labledPoints;
     this->inf->write("Please upload your local train CSV file.\n");
+    bool checkInvalid1 = true;
     while (this->inf->read() == "clientReady") {
+      checkInvalid1=false;
         this->inf->write("Go");
         std::vector<double> v;
         std::string word;
@@ -42,21 +44,16 @@ void func1::execute() {
 
         labledPoints.insert(std::pair<std::vector<double>, std::string>(v, name));
     }
-     for(auto it=labledPoints.begin(); it!=labledPoints.end(); ++it) {
-         std::cout<< "Vector: ";
-         for(auto val: it->first)
-             std::cout<< val<<" ";
-         std::cout<<" Label: "<<it->second<<std::endl;
-     }
+    if(!checkInvalid1) {
     this->inf->setKnn(labledPoints);
     size = 0;
-
     std::list<std::vector<double>> test;
     this->inf->write("Please upload your local test CSV file.\n");
-    std::cout<<"passed in server"<<std::endl;
+    bool checkInvalid = false;
     std::string isReady = this->inf->read();
+    if(strcmp(isReady.c_str(),"testReady")!=0)
+    checkInvalid=true;
     while (strcmp(isReady.c_str(),"testReady")==0) {
-      std::cout << isReady << '\n';
         this->inf->write("Go");
         std::vector<double> v;
         std::string word;
@@ -70,14 +67,10 @@ void func1::execute() {
       ss>>val;
       if(val!=v.back())
       v.push_back(val);
-            for (auto x : v) {
-    std::cout << x << " ";
-}
-      std::cout << std::endl;
         test.push_back(v);
         isReady = this->inf->read();
       }
-    std::cout<<"finish"<<std::endl;
+    if(!checkInvalid)
     this->inf->setTestFile(test);
-
     }
+  }

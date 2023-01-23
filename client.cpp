@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
         char buffer1[4096];
         char buffer2[4096]="nitay";
         int expected_data_len = sizeof(buffer1);
-          std::this_thread::sleep_for(std::chrono::milliseconds(100));
+          std::this_thread::sleep_for(std::chrono::milliseconds(10));
         int read_bytes = recv(sock, buffer1, expected_data_len, 0);
         if (read_bytes == 0) {
             std::cout << "no bytes to read" << std::endl;
@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
             if (strcmp(buffer1, "close") == 0) //if we want to end the program.
                 break;
             else if (strcmp(buffer1, "start func 4") == 0) {
-                while (strcmp(buffer2, "Done\n") != 0) {      
+                while (strcmp(buffer2, "Done\n") != 0) {
                     int expected_data_len = sizeof(buffer2);
                     int read_bytes = recv(sock, buffer2, expected_data_len, 0);
                     if (read_bytes == 0) {
@@ -82,7 +82,6 @@ int main(int argc, char **argv) {
                     if (file.is_open()) {
                         while (getline(file, line)) {
                             int sent_bytes = send(sock, ready.c_str(), ready.length(), 0);
-                            std::cout << line << std::endl;
                             char buffer3[4096];
                             int expected_data_len = sizeof(buffer3);
                             int read_bytes = recv(sock, buffer3, expected_data_len, 0);
@@ -92,15 +91,17 @@ int main(int argc, char **argv) {
                                 std::cout << "failed reading" << std::endl;
                             } else if (strcmp(buffer3, "Go") == 0) {
                                 int sent_bytes = send(sock, line.c_str(), line.length(), 0);
-                                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                                std::this_thread::sleep_for(std::chrono::milliseconds(10));
                             }
                         }
                         //   std::string stop="stop";
                         // int sent_bytes = send(sock, stop.c_str(),stop.length(), 0);
+                        std::cout << "Upload complete" << '\n';
                         file.close();
                         int sent_bytes = send(sock, testReady.c_str(), testReady.length(), 0);
                     } else {
-                        std::cout << "Unable to open file\n";
+                        std::cout << "invalid input\n";
+                        int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
                     }
                 }
                 else if(strcmp(buffer1, "Please upload your local test CSV file.\n") == 0) {
@@ -111,7 +112,6 @@ int main(int argc, char **argv) {
                       if (file.is_open()) {
                           while (getline(file, line)) {
                               int sent_bytes = send(sock, testReady.c_str(), testReady.length(), 0);
-                              std::cout << line << std::endl;
                               char buffer3[4096];
                               int expected_data_len = sizeof(buffer3);
                               int read_bytes = recv(sock, buffer3, expected_data_len, 0);
@@ -121,17 +121,18 @@ int main(int argc, char **argv) {
                                   std::cout << "failed reading" << std::endl;
                               } else if (strcmp(buffer3, "Go") == 0) {
                                   int sent_bytes = send(sock, line.c_str(), line.length(), 0);
-                                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                                    std::this_thread::sleep_for(std::chrono::milliseconds(10));
                               }
                           }
                           //   std::string stop="stop";
-                          std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                          std::this_thread::sleep_for(std::chrono::milliseconds(20));
                           int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
-                          std::cout<<"send finish"<<std::endl;
+                          std::cout<<"Upload complete."<<std::endl;
                           file.close();
 
                       } else {
-                          std::cout << "Unable to open file\n";
+                            std::cout << "invalid input\n";
+                          int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
                       }
 
                   }

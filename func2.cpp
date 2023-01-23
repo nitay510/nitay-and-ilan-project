@@ -45,14 +45,14 @@ void func2::execute() {
           this->inf->setK(newK);
         } else
           this->inf->write("invalid value for metric \n");
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     else
       this->inf->write("invalid value of k \n");
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
     else
     this->inf->write("invalid value of k \n");
-      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
 }
