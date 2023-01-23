@@ -21,6 +21,7 @@ public:
     void setDio(DefultIO* dio);
     void setTestFile(std::list <std::vector<double>> testFile);
     void setK(int k);
+    KNN* getKNN();
     void setdType(Distance* dType,std::string dTypeName);
     std::string predictWithK(std::vector<double> Point);
     int getK();

@@ -16,8 +16,8 @@ void HoldInfo::setPredict(std::map<int,std::string> filesAfterPredict){
   this->dataClassified = true;
 }
 void HoldInfo::setKnn(std::multimap<std::vector<double>,std::string> LabledPoints){
-  KNN knn1(LabledPoints);
-  this->knn = &knn1;
+  KNN* knn1 = new KNN(LabledPoints);
+  this->knn = knn1;
   this->haveFile = true;
 }
 void HoldInfo:: setDio(DefultIO* dio){
@@ -46,6 +46,9 @@ std::list <std::vector<double>> HoldInfo::getTestFile(){
 }
 int HoldInfo:: getK(){
   return this->k;
+}
+KNN* HoldInfo:: getKNN(){
+  return this->knn;
 }
 std::string HoldInfo:: getDName(){
   return this->dTypeName;

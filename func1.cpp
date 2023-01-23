@@ -60,14 +60,17 @@ void func1::execute() {
         this->inf->write("Go");
         std::vector<double> v;
         std::string word;
-        std::istringstream is(this->inf->read());
-        std::cout<<is.str()<<std::endl;
+        std::string line = this->inf->read();
+        std::stringstream ss(line);
         double val;
-        bool check = true;
-        //read the  numbers and the name
-        while (is>>val) {
+        while (getline(ss, word, ',')) {
+          if(checkIsDouble(word,val))
           v.push_back(val);
-            }
+      }
+            for (auto x : v) {
+    std::cout << x << " ";
+}
+std::cout << std::endl;
         test.push_back(v);
         isReady = this->inf->read();
       }
