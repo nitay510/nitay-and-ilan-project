@@ -12,8 +12,11 @@ if(inf->haveFiles()){
   std::map<int,std::string> predictList;
   for (auto & currentVector : this->inf->getTestFile()) {
   predictList.insert(std::pair<int,std::string>(i,this->inf->predictWithK(currentVector)));
+  std::cout << this->inf->predictWithK(currentVector) << '\n';
   i++;
+  std::cout << "/* message */" << '\n';
 }
+std::cout << "/* message finish */" << '\n';
 this->inf->setPredict(predictList);
 this->inf->write("classifying data complete\n");
 std::this_thread::sleep_for(std::chrono::milliseconds(100));

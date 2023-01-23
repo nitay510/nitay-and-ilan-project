@@ -67,6 +67,9 @@ void func1::execute() {
           if(checkIsDouble(word,val))
           v.push_back(val);
       }
+      ss>>val;
+      if(val!=v.back())
+      v.push_back(val);
             for (auto x : v) {
     std::cout << x << " ";
 }
