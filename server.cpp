@@ -11,31 +11,16 @@
 #include <queue>
 #include <mutex>
 #include <condition_variable>
-const int NUM_THREADS = 1000;
 std::queue<int> client_socks;
 std::mutex mtx;
 std::condition_variable cv;
-std::vector<std::thread> threads;
 bool stop = false;
 
-void worker() {
-    while (true) {
-        std::unique_lock<std::mutex> lock(mtx);
-        cv.wait(lock, [] { return !client_socks.empty() || stop; });
-
-        if (stop && client_socks.empty()) {
-            break;
-        }
-
-        int client_sock = client_socks.front();
-        client_socks.pop();
-        lock.unlock();
-
-        SocketIO* sio = new SocketIO(client_sock);
-        CLI cli(sio);
-        cli.start();
-        delete sio;
-    }
+void worker(int client_sock) {
+    SocketIO* sio = new SocketIO(client_sock);
+    CLI cli(sio);
+    cli.start();
+    delete sio;
 }
 
 int main(int argc, char** argv) {
@@ -46,7 +31,7 @@ int main(int argc, char** argv) {
     }
 
     const int server_port = std::stoi(argv[1]);
-    int sock = socket(AF_INET, SOCK_STREAM, 0);
+    int sock = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
     if (sock < 0) {
         perror("error creating socket");
         exit(1);
@@ -62,7 +47,7 @@ int main(int argc, char** argv) {
         perror("error binding socket");
         exit(1);
     }
-    if (listen(sock, 5) < 0) {
+    if (listen(sock, SOMAXCONN) < 0) {
         perror("error listening to a socket");
         exit(1);
     }
@@ -70,30 +55,19 @@ int main(int argc, char** argv) {
     struct sockaddr_in client_sin;
     unsigned int addr_len = sizeof(client_sin);
 
-    for (int i = 0; i < NUM_THREADS; ++i) {
-        threads.push_back(std::thread(worker));
-    }
-
     while (true) {
         int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);
         if (client_sock < 0) {
-            perror("error accepting client");
+            if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                continue;
+            } else {
+                perror("error accepting client");
+            }
         } else {
-            std::unique_lock<std::mutex> lock(mtx);
-            client_socks.push(client_sock);
-            cv.notify_one();
+            std::thread t(worker, client_sock);
+            t.detach();
         }
     }
-
-    {
-        std::unique_lock<std::mutex> lock(mtx);
-        stop = true;
-        cv.notify_all();
-    }
-
-    for (auto& thread : threads) {
-        thread.join();
-    }
-
+    close(sock);
     return 0;
 }
