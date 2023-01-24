@@ -30,7 +30,7 @@ int CLI::menu() {
     menu_options<<"8 . exit\n";
     std::string final_string = menu_options.str();
     DIO->write(final_string);
-    string option = DIO->read(); //needs to take into account invalid input.
+    string option = DIO->read();
     double d;
     int op;
     if (checkIsDouble(option, d))

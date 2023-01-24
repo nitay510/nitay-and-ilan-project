@@ -84,13 +84,8 @@ int main(int argc, char **argv) {
                             getline(cin, localPath);
                             sentPath=true;
                             std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                         //   cout<<localPath<<std::endl;
                             int sent_bytes = send(sock, localPath.c_str(), localPath.length(), 0);
                         }
-
-                     /*else {
-                        std::cout << buffer2;
-                    }*/
                 }
             } else {
                 std::cout << buffer1;
@@ -105,7 +100,7 @@ int main(int argc, char **argv) {
                         std::string line;
                         bool invalidchecker=false;
                         if (file.is_open()) {
-                            while (getline(file, line)) {
+                            while (getline(file, line)&&!invalidchecker) {
                                 int sent_bytes = send(sock, ready.c_str(), ready.length(), 0);
                                 char buffer3[4096];
                                 int expected_data_len = sizeof(buffer3);
@@ -120,15 +115,14 @@ int main(int argc, char **argv) {
                                 }
                                 else {
                                   invalidchecker=true;
-                                  std::cout << "invalid input\n";
-                                  int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
-                                  break;
+                                  std::cout << "invalid input1\n";
                                 }
                             }
-                            if(!invalidchecker)
-                            std::cout << "Upload complete" << '\n';
-                            file.close();
+                            if(!invalidchecker){
+                            std::cout << "Upload complete1" << '\n';
                             int sent_bytes = send(sock, testReady.c_str(), testReady.length(), 0);
+                          }
+                            file.close();
                         } else {
                             std::cout << "invalid input\n";
                             int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
@@ -141,7 +135,7 @@ int main(int argc, char **argv) {
                         std::string line;
                         bool invalidchecke2r=false;
                         if (file.is_open()) {
-                            while (getline(file, line)) {
+                            while (getline(file, line)&&!invalidchecke2r) {
                                 int sent_bytes = send(sock, testReady.c_str(), testReady.length(), 0);
                                 char buffer3[4096];
                                 int expected_data_len = sizeof(buffer3);
@@ -155,20 +149,17 @@ int main(int argc, char **argv) {
                                     std::this_thread::sleep_for(std::chrono::milliseconds(10));
                                 } else {
                                     invalidchecke2r=true;
-                                      std::this_thread::sleep_for(std::chrono::milliseconds(10));
-                                    int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
-                                    break;
                                 }
                             }
-                            //   std::string stop="stop";
-                            std::this_thread::sleep_for(std::chrono::milliseconds(20));
+                            if(!invalidchecke2r) {
+                            std::this_thread::sleep_for(std::chrono::milliseconds(10));
                             int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
-                            if(!invalidchecke2r)
                             std::cout << "Upload complete." << std::endl;
+                          }
                             file.close();
 
                         } else {
-                            std::cout << "invalid input\n";
+                            std::cout << "invalid input 3\n";
                             int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
                         }
                     } else {

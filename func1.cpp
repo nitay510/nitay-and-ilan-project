@@ -38,7 +38,7 @@ void func1::execute() {
         }
         //check if it was a valid vector if it does put it in the map
         if (is.rdbuf()->in_avail() != 0 || v.size() != size) {
-          this->inf->write("!Finish");
+          this->inf->write("Finish");
           return;
         }
         labledPoints.insert(std::pair<std::vector<double>, std::string>(v, name));
