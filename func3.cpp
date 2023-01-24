@@ -12,7 +12,7 @@ if(inf->haveFiles()){
   std::list<std::string> predictList;
   for (auto & currentVector : this->inf->getTestFile()) {
   predictList.push_back(this->inf->predictWithK(currentVector));
- // std::cout << this->inf->predictWithK(currentVector) << '\n';
+  std::cout << this->inf->predictWithK(currentVector) << '\n';
   i++;
 }
 this->inf->setPredict(predictList);

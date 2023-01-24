@@ -13,7 +13,6 @@ public:
   func5(HoldInfo* inf);
     std::string getDesctiption() override;
       void execute() override;
-      void download(string localPath,string mapS);
 };
 
 

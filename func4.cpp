@@ -19,7 +19,7 @@ void func4::execute() {
   }
     this->inf->write("start func 4");
     int i = 1;
-  //  std::cout <<this->inf->getPredictList().size() << '\n';
+    std::cout <<this->inf->getPredictList().size() << '\n';
     for (auto str :this->inf->getPredictList()) {
     std::stringstream mapS;
     mapS << i << "." << str<< std::endl;
