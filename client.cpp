@@ -68,7 +68,31 @@ int main(int argc, char **argv) {
                         std::cout << buffer2;
                     }
                 }
-            } else {
+            }else if (strcmp(buffer1, "start func 5") == 0) {
+                std::string localPath;
+                bool sentPath = false;
+                while (strcmp(buffer2, "Done\n") != 0) {
+                    int expected_data_len = sizeof(buffer2);
+                    int read_bytes = recv(sock, buffer2, expected_data_len, 0);
+                    if (read_bytes == 0) {
+                        std::cout << "no bytes to read" << std::endl;
+                    } else if (read_bytes < 0) {
+                        std::cout << "failed reading" << std::endl;
+                    } else if (strcmp(buffer2, "Enter a local path: \n") == 0 && !sentPath) {
+                        std::cout << buffer2;
+                        getline(cin, localPath);
+                        sentPath = true;
+                        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                        //   cout<<localPath<<std::endl;
+                        int sent_bytes = send(sock, localPath.c_str(), localPath.length(), 0);
+                    }
+
+                    /*else {
+                       std::cout << buffer2;
+                   }*/
+                }
+            }
+                else {
                 std::cout << buffer1;
         if (!((buffer1[0] == 'i' && buffer1[1] == 'n' && buffer1[2] == 'v' && buffer1[3] == 'a')
               || (buffer1[0] == 'c' && buffer1[1] == 'l' && buffer1[2] == 'a' && buffer1[3] == 's')

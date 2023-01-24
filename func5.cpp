@@ -4,10 +4,10 @@
 #include <thread>
 #include <mutex>
 func5::func5(HoldInfo* inf){
-  this->inf = inf;
+    this->inf = inf;
 }
 std::string func5::getDesctiption(){
-  return this->description;
+    return this->description;
 }
 void func5::execute() {
     if(!this->inf->haveFiles()){
@@ -43,7 +43,7 @@ void func5::download(string localPath,string mapS){
 
     int lastSlash = localPath.find_last_of('/');
     std::string filename = localPath.substr(lastSlash + 1);
-   // std::cout << "Filename:" << filename << std::endl;
+    // std::cout << "Filename:" << filename << std::endl;
     //localPath="C:/Users/ilan talala/Documents/GitHub/nitay-and-ilan-last-mission";
     std::ofstream file(localPath);
     if (file.is_open()) {
@@ -55,6 +55,6 @@ void func5::download(string localPath,string mapS){
 };
 //datasets/iris/iris_classified.csv
 //datasets/iris/iris_Unclassified.csv
-//C:/Users/ilan talala/Documents/GitHub/nitay-and-ilan-last-mission/results.txt
+//C:/Users/Public/Desktop/result.txt
 //datasets/result.txt
 //C:/Users/ilan talala/Documents/GitHub

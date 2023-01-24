@@ -7,12 +7,13 @@
 
 #include "Command.h"
 class func5: public Command{
-      HoldInfo* inf;
-      string description="download results";
+    HoldInfo* inf;
+    string description="download results";
 public:
-  func5(HoldInfo* inf);
+    func5(HoldInfo* inf);
     std::string getDesctiption() override;
-      void execute() override;
+    void execute() override;
+    void download(string localPath,string mapS);
 };
 
 
