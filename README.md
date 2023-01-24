@@ -14,15 +14,10 @@ for the client:
 ```
 ./client.out ip_number port_number
 ```
-After running the client.out there is input to type in:
-enter input:
-```
-<vector> <TypeDistance> <K value>
-```
+
 In order to run the code, do it in the following order:
-1. Compile the server and run it with a file of the "classified" data and a certain port.
-2. Then you need to compile and run the client with a certain IP address and add the same port as the server.
-3. Enter the input in the format described above.
+1. Compile the server and run it with a certain port.
+2. Then you need to compile and run the client with the same IP address as the server.
 -port_number:
 A port is a number assigned to uniquely identify a connection endpoint and to direct data to a specific service.
 The port number of the client and the server must be identical!
@@ -43,23 +38,26 @@ and then we will return the most common vector type among these K.
 *In Minkowski distance we chose random value for p (p=2)
 because the value of each p does not affect the algorithm and therefore does not matter to us.
 #ABOUT THE CODE:-In this code there is a client and a server side.
-   The user feeds the client a vector of distance type and size K and then the client sends this to the server.
-   The server creates the KNN from the previous exercise and gives it the values it received from the client.
-   In the running line of the server it is given a file with classified information,
-   according to which the KNN knew how to classify each new vector.
-   Given a certain vector, a distance function and a K value, the KNN will return the vector type.
-   The server will pass this on to the client and the client will print the answer for us.
-   The client continues to accept inputs from the user until the user enters -1.
-   If the user enters an input that is incorrect, that is, not according to the format rules, the message "Invalid input" will be printed.
-   If, while running the client, not enough arguments are received, the message will be printed:
-   "you didn't put enough arguments!!:"
+The client receives a menu with 5 options according to the order and at the end of the order 
+option 8 to exit the program. Option 1 will ask the client to enter a file of classified vectors
+and a test file that will contain vectors that will be classified.
+Option 2 will show the client the distance metric according to which the vectors will be classified
+and the current K value, and the client will also be able to replace the K value and the distance metric.
+In this option, the client is expected to enter a value of K and Matric and must provide these two
+arguments, otherwise an error message will be received.
+Option 3 will classify the vectors in a test file according to the classified vectors file.
+Option 4 will present to the client the results of the test file after 
+classification after numbering by lines, and finally "Done" will be printed.
+Option 5 will allow the client to enter a path on his computer where the results
+will be saved after the classification. If one of the files has not been entered,
+the customer will be asked to enter the file. If the path is invalid, an error message will be received.
  -This code simulates a KNN algorithm when it receives a file of classified vectors,
  a distance function and a K value. And for each input the algorithm will check for the closest K vectors
  what is the most common type and accordingly the vector type will be returned.
  Proximity between the vector and the nearest K will be checked using the distance function.
- -all the checks are in the client and the student just check if he gets -1 and if not send all the info to the server
+ -all the checks are in the client and the student just check if he gets -1 and if not send all the info to
  the server than do all the check and if the input is invalid return "invalid input to the client" the client
- just recive text from user and send it to the server
+ just receive text from user and send it to the server
  -The code is divided as follows:
  -there is a class called KNN and its fields are:
  1.multimap whose keys are vectors and the values in it are strings.
