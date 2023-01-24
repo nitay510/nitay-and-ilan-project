@@ -103,6 +103,7 @@ int main(int argc, char **argv) {
                         std::getline(std::cin, localTrain);
                         std::ifstream file(localTrain);
                         std::string line;
+                        bool invalidchecker=false;
                         if (file.is_open()) {
                             while (getline(file, line)) {
                                 int sent_bytes = send(sock, ready.c_str(), ready.length(), 0);
@@ -117,21 +118,28 @@ int main(int argc, char **argv) {
                                     int sent_bytes = send(sock, line.c_str(), line.length(), 0);
                                     std::this_thread::sleep_for(std::chrono::milliseconds(10));
                                 }
+                                else {
+                                  invalidchecker=true;
+                                  std::cout << "invalid input\n";
+                                  int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
+                                  break;
+                                }
                             }
-                            //   std::string stop="stop";
-                            // int sent_bytes = send(sock, stop.c_str(),stop.length(), 0);
+                            if(!invalidchecker)
                             std::cout << "Upload complete" << '\n';
                             file.close();
                             int sent_bytes = send(sock, testReady.c_str(), testReady.length(), 0);
                         } else {
                             std::cout << "invalid input\n";
                             int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
+                            std::this_thread::sleep_for(std::chrono::milliseconds(10));
                         }
                     } else if (strcmp(buffer1, "Please upload your local test CSV file.\n") == 0) {
                         std::string localTest;
                         std::getline(std::cin, localTest);
                         std::ifstream file(localTest);
                         std::string line;
+                        bool invalidchecke2r=false;
                         if (file.is_open()) {
                             while (getline(file, line)) {
                                 int sent_bytes = send(sock, testReady.c_str(), testReady.length(), 0);
@@ -145,11 +153,17 @@ int main(int argc, char **argv) {
                                 } else if (strcmp(buffer3, "Go") == 0) {
                                     int sent_bytes = send(sock, line.c_str(), line.length(), 0);
                                     std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                                } else {
+                                    invalidchecke2r=true;
+                                      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                                    int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
+                                    break;
                                 }
                             }
                             //   std::string stop="stop";
                             std::this_thread::sleep_for(std::chrono::milliseconds(20));
                             int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
+                            if(!invalidchecke2r)
                             std::cout << "Upload complete." << std::endl;
                             file.close();
 
@@ -157,7 +171,6 @@ int main(int argc, char **argv) {
                             std::cout << "invalid input\n";
                             int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
                         }
-
                     } else {
                         std::string input;
                         std::getline(std::cin, input);
