@@ -47,12 +47,27 @@ void func2::execute() {
           this->inf->write("invalid value for metric \n");
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
-    else
+    else{
+      is1>>newMetric;
+      is1>>newMetric;
+      std::cout << newMetric << '\n';
+      if(newMetric.compare("AUC")==0)
       this->inf->write("invalid value of k \n");
+      else if(newMetric.compare("CHB")==0)
+      this->inf->write("invalid value of k \n");
+      else if(newMetric.compare("CAN")==0)
+       this->inf->write("invalid value of k \n");
+       else if(newMetric.compare("MIN")==0)
+       this->inf->write("invalid value of k \n");
+       else if(newMetric.compare("MAN")==0)
+       this->inf->write("invalid value of k \n");
+       else
+       this->inf->write("invalid value of k \ninvalid value for metric \n");
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
-    else
-    this->inf->write("invalid value of k \n");
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
-  }
+} else {
+       this->inf->write("invalid value of k \n");
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+}
+}
 }

@@ -119,7 +119,7 @@ int main(int argc, char **argv) {
                                 }
                             }
                             if(!invalidchecker){
-                            std::cout << "Upload complete1" << '\n';
+                            std::cout << "Upload complete" << '\n';
                             int sent_bytes = send(sock, testReady.c_str(), testReady.length(), 0);
                           }
                             file.close();
