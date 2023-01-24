@@ -12,7 +12,7 @@ void func2::execute() {
   std::string toSend = current_k.str();
   this->inf->write(toSend);
   std::string toRead = this->inf->read();
-  if(!toRead.empty()) {
+  if(strcmp(toRead.c_str(),"$")!=0) {
     std::istringstream is1(toRead);
     int newK;
     std::string newMetric;

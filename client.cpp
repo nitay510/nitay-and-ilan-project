@@ -162,6 +162,8 @@ int main(int argc, char **argv) {
                         std::string input;
                         std::getline(std::cin, input);
                         // Send input to server
+                        if(input.length()==0)
+                        input="$";
                         int sent_bytes = send(sock, input.c_str(), input.length(), 0);
                         //will need to check the sent_bytes
                     }
