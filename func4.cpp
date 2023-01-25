@@ -28,6 +28,6 @@ void func4::execute() {
     i++;
 }
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    this->inf->write("Done\n");
+    this->inf->write("Done.\n");
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
