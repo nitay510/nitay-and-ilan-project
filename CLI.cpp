@@ -4,7 +4,7 @@
 #include <vector>
 
 using namespace std;
-
+//constructor of CLI by receiving DefaultIO
 CLI::CLI(DefultIO *IO) {
     this->DIO = IO;
     HoldInfo *inf = new HoldInfo(IO);
@@ -20,7 +20,7 @@ CLI::CLI(DefultIO *IO) {
     functions.insert(make_pair(4, func4_command));
     functions.insert(make_pair(5, func5_command));
 }
-
+//a function to show the menu by passing description.
 int CLI::menu() {
     std::stringstream menu_options;
     menu_options << "Menu options:\n";
@@ -33,7 +33,7 @@ int CLI::menu() {
     string option = DIO->read();
     double d;
     int op;
-    if (checkIsDouble(option, d))
+    if (checkIsDouble(option, d)) //if the option is valid number
         op = std::stoi(option);
     else {
         op = 9;
@@ -57,7 +57,7 @@ void CLI::start() {
         }
     }
 };
-
+//destructor
 CLI::~CLI() {
     delete this->info->getKNN();
     delete this->info->getDistanceMetrix();

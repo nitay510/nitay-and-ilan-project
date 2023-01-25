@@ -15,7 +15,7 @@ std::queue<int> client_socks;
 std::mutex mtx;
 std::condition_variable cv;
 bool stop = false;
-
+//creating CLI and Socket to start the program
 void worker(int client_sock) {
     SocketIO* sio = new SocketIO(client_sock);
     CLI cli(sio);
@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
 
     struct sockaddr_in client_sin;
     unsigned int addr_len = sizeof(client_sin);
-
+//in order to support several clients meanwhile
     while (true) {
         int client_sock = accept(sock, (struct sockaddr *) &client_sin, &addr_len);
         if (client_sock < 0) {

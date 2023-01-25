@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
         char buffer2[4096] = "nitay";
         int expected_data_len = sizeof(buffer1);
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        int read_bytes = recv(sock, buffer1, expected_data_len, 0);
+        int read_bytes = recv(sock, buffer1, expected_data_len, 0); //receiving any data from the server
         if (read_bytes == 0) {
             std::cout << "no bytes to read" << std::endl;
         } else if (read_bytes < 0) {
@@ -132,12 +132,13 @@ int main(int argc, char **argv) {
                             int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
                             std::this_thread::sleep_for(std::chrono::milliseconds(10));
                         }
+                        //to catch this massage from server
                     } else if (strcmp(buffer1, "Please upload your local test CSV file.\n") == 0) {
                         std::string localTest;
                         std::getline(std::cin, localTest);
                         std::ifstream file(localTest);
                         std::string line;
-                        bool invalidchecke2r=false;
+                        bool invalidchecke2r=false; //flag for reading the message for local test once.
                         if (file.is_open()) {
                             while (getline(file, line)&&!invalidchecke2r) {
                                 int sent_bytes = send(sock, testReady.c_str(), testReady.length(), 0);
@@ -166,7 +167,9 @@ int main(int argc, char **argv) {
                             std::cout << "invalid input 3\n";
                             int sent_bytes = send(sock, finish.c_str(), finish.length(), 0);
                         }
-                    } else {
+                    }
+                    //waiting for input to the menu
+                    else {
                         std::string input;
                         std::getline(std::cin, input);
                         // Send input to server

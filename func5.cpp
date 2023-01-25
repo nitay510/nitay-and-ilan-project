@@ -3,6 +3,7 @@
 #include "func5.h"
 #include <thread>
 #include <mutex>
+#include <experimental/filesystem>
 func5::func5(HoldInfo* inf){
     this->inf = inf;
 }
@@ -32,15 +33,15 @@ void func5::execute() {
     this->inf->write("Enter a local path: \n");
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     localPath=this->inf->read();
-
-    if(access(localPath.c_str(),F_OK)==-1)
-    {
-        cout<<"The path not valid\n"<<endl;
+    //check if the address is valid before creating a file
+    std::ifstream file(localPath);
+    if(!file.good()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         this->inf->write("Invalid input\n");
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         return;
     }
+    file.close();
     std::thread t1([this, &localPath, &mapS](){this->download(localPath, mapS.str());});
     // create new thread and run function1 in it
     t1.detach();
@@ -49,8 +50,23 @@ void func5::execute() {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 void func5::download(string localPath,string mapS){
-
-    std::ofstream file("outputFile");
-    file << mapS;
-    file.close();
+   //created empty file name outputFile.txt
+    std::ofstream file;
+    file.open(localPath + "outputFile.txt", std::ios::trunc);
+    if(file.is_open()) {
+        // file is open
+        file.close();
+    }
+    std::ofstream file2;
+    file2.open(localPath + "outputFile.txt", std::ios::trunc);
+    if(file2.is_open()) {
+        file2 << mapS;
+        file2.close();
+    } else {
+        // file is not open
+    }
 }
+
+//datasets/iris/iris_classified.csv
+//datasets/iris/iris_Unclassified.csv
+//C:/Users/ilan talala/Documents/GitHub/nitay-and-ilan-last-mission
