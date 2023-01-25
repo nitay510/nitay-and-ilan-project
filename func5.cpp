@@ -32,6 +32,15 @@ void func5::execute() {
     this->inf->write("Enter a local path: \n");
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     localPath=this->inf->read();
+
+    if(access(localPath.c_str(),F_OK)==-1)
+    {
+        cout<<"The path not valid\n"<<endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        this->inf->write("Invalid input\n");
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        return;
+    }
     std::thread t1([this, &localPath, &mapS](){this->download(localPath, mapS.str());});
     // create new thread and run function1 in it
     t1.detach();
@@ -41,20 +50,7 @@ void func5::execute() {
 }
 void func5::download(string localPath,string mapS){
 
-    int lastSlash = localPath.find_last_of('/');
-    std::string filename = localPath.substr(lastSlash + 1);
-    // std::cout << "Filename:" << filename << std::endl;
-    //localPath="C:/Users/ilan talala/Documents/GitHub/nitay-and-ilan-last-mission";
-    std::ofstream file(localPath);
-    if (file.is_open()) {
-        file << mapS;
-    } else {
-        this->inf->write("Invalid input\n");
-    }
+    std::ofstream file("outputFile");
+    file << mapS;
     file.close();
-};
-//datasets/iris/iris_classified.csv
-//datasets/iris/iris_Unclassified.csv
-//C:/Users/Public/Desktop/result.txt
-//datasets/result.txt
-//C:/Users/ilan talala/Documents/GitHub
+}

@@ -56,8 +56,8 @@ int main(int argc, char **argv) {
         } else {
             if (strcmp(buffer1, "close") == 0) //if we want to end the program.
                 break;
-            else if (strcmp(buffer1, "start func 4") == 0) {
-                while (strcmp(buffer2, "Done\n") != 0) {
+            else if (strcmp(buffer1, "start func 4") == 0) { //invoke command 4
+                while (strcmp(buffer2, "Done\n") != 0) { //stop when Done sent
                     int expected_data_len = sizeof(buffer2);
                     int read_bytes = recv(sock, buffer2, expected_data_len, 0);
                     if (read_bytes == 0) {
@@ -68,10 +68,10 @@ int main(int argc, char **argv) {
                         std::cout << buffer2;
                     }
                 }
-            } else if (strcmp(buffer1, "start func 5") == 0) {
+            } else if (strcmp(buffer1, "start func 5") == 0) {//invoke command 5
                 std::string localPath;
-                bool sentPath=false;
-                while (strcmp(buffer2, "Done\n") != 0) {
+                bool sentPath=false; //flag for one printing.
+                while (strcmp(buffer2, "Done\n") != 0) { //stop when Done sent
                     int expected_data_len = sizeof(buffer2);
                     int read_bytes = recv(sock, buffer2, expected_data_len, 0);
                     if (read_bytes == 0) {
@@ -86,19 +86,23 @@ int main(int argc, char **argv) {
                             std::this_thread::sleep_for(std::chrono::milliseconds(100));
                             int sent_bytes = send(sock, localPath.c_str(), localPath.length(), 0);
                         }
+                    else if (strcmp(buffer2, "Invalid input\n") == 0) {
+                        std::cout << "Invalid path" << std::endl;
+                        break;
+                    }
                 }
-            } else {
+            } else { //
                 std::cout << buffer1;
                 if (!((buffer1[0] == 'i' && buffer1[1] == 'n' && buffer1[2] == 'v' && buffer1[3] == 'a')
                       || (buffer1[0] == 'c' && buffer1[1] == 'l' && buffer1[2] == 'a' && buffer1[3] == 's')
                       || (buffer1[0] == 'p' && buffer1[1] == 'l' && buffer1[2] == 'e' && buffer1[3] == 'a'))) {
-                    if (strcmp(buffer1, "Please upload your local train CSV file.\n") == 0) {
-                        std::string ready = "clientReady";
+                    if (strcmp(buffer1, "Please upload your local train CSV file.\n") == 0) { //invoke command 1
+                        std::string ready = "clientReady"; //message from client to server that is ready
                         std::string localTrain;
                         std::getline(std::cin, localTrain);
                         std::ifstream file(localTrain);
-                        std::string line;
-                        bool invalidchecker=false;
+                        std::string line; //to store the vectors
+                        bool invalidchecker=false; //flag for validity of input
                         if (file.is_open()) {
                             while (getline(file, line)&&!invalidchecker) {
                                 int sent_bytes = send(sock, ready.c_str(), ready.length(), 0);
@@ -109,13 +113,13 @@ int main(int argc, char **argv) {
                                     std::cout << "no bytes to read" << std::endl;
                                 } else if (read_bytes < 0) {
                                     std::cout << "failed reading" << std::endl;
-                                } else if (strcmp(buffer3, "Go") == 0) {
+                                } else if (strcmp(buffer3, "Go") == 0) { //the client start sending lines
                                     int sent_bytes = send(sock, line.c_str(), line.length(), 0);
                                     std::this_thread::sleep_for(std::chrono::milliseconds(10));
                                 }
                                 else {
                                   invalidchecker=true;
-                                  std::cout << "invalid input1\n";
+                                  std::cout << "invalid input\n";
                                 }
                             }
                             if(!invalidchecker){
